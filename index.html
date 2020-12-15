@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Bouman-Johnson Housing Project</title>
+</head>
+<body>
+    
+    <section class = "banner">
+        <h2>FIND YOUR APPARTEMENT</h2>
+        <div class = "card-container">
+            <div class = "card-img">
+                <!-- image here -->
+            </div>
+            <div class = "card-content">
+                <h3>SEARCH</h3>
+                <form>
+                    <div class = "form-row">
+                        <input type = "text" placeholder="Type of appartement" id="appart" required>
+                        <input type = "number" placeholder="area" id="area"  required>
+                    </div>
+                    <div class = "form-row">
+                        <input type = "number" placeholder="Rooms?" id="room" min="1" required>
+                        <input type = "number" placeholder="zip code" id="zip" min="1" required>
+                        <input  value ="SEARCH" id="sub">
+                    </div>
+                </form>
+                <div class="hide" style="color: #f2745f; text-align: center; padding-top: 35px;">
+                    <p>here you are the price: <span id="price">0</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script>
+
+    document.getElementById('sub').addEventListener("click", () => {
+        let getAppart = document.getElementById('appart').value;
+        let getArea = parseInt(document.getElementById('area').value);
+        let getRoom = parseInt(document.getElementById('room').value);
+        let getZip = parseInt(document.getElementById('zip').value);
+        
+        // alert(getAppart + " " + getArea + " " + getRoom + " " + getZip);
+        
+    
+    let theData = {
+
+    data : { 
+    "property-type": getAppart,
+    "area": getArea,
+    "rooms-number": getRoom,
+    "zip-code": getZip
+    }
+
+}
+console.log(theData.data)
+// console.log(data)
+
+fetch('https://roberta-eliza-cors.herokuapp.com/predict',{
+method: "POST",
+body: JSON.stringify(theData),
+headers: {"Content-type": "application/json"}
+})
+
+.then(response => response.json())
+.then(data => {
+    console.log(data)
+    document.getElementById('price').innerHTML=data.prediction.price
+    alert("your price is: " + data.prediction.price)
+    })
+.catch(err => console.log(err));
+})
+
+
+
+    </script>
+</body>
+</html>
+
+                   
+
+                      
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+    
+
+
+    
+        
+        
+    
+    
+
+
+
+
+
+
+
+
+
+
